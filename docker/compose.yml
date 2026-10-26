@@ -1,0 +1,48 @@
+# Scratch ILIAS 10.11 for testing this plugin.
+# The plugin is copied in by scripts/install-plugin.sh (a bind mount breaks the entrypoint's chown -R).
+# Own project name and own volumes. The image recipe is in docker/ilias.
+#
+#   docker compose -f docker/compose.yml up -d --build
+#   -> http://localhost:8081 (root / homer). ILIAS's base URL stays localhost:8080,
+#      so SOAP clients must override the endpoint (see scripts/e2e.py).
+#
+# `docker compose -f docker/compose.yml down -v` drops this stack's volumes.
+name: ilias-soap-spike
+
+services:
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: ilias
+      MARIADB_USER: ilias
+      MARIADB_PASSWORD: ilias
+    command:
+      - --character-set-server=utf8mb3
+      - --collation-server=utf8mb3_general_ci
+      - --sql-mode=IGNORE_SPACE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+      - --innodb-file-per-table=1
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    volumes:
+      - db:/var/lib/mysql
+
+  ilias:
+    build:
+      context: ./ilias
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8081:8080"
+    volumes:
+      - iliasdata:/var/iliasdata
+      - iliaslogs:/var/www/html/logs
+
+volumes:
+  db:
+  iliasdata:
+  iliaslogs:

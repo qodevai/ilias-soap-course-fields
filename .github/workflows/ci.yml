@@ -1,0 +1,23 @@
+# e2e (scripts/e2e.py) needs the Docker ILIAS stack and runs locally only.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ["8.2", "8.3"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+      - run: composer install --no-interaction --no-progress
+      - run: find plugin tests -name '*.php' -print0 | xargs -0 -n1 php -l | (! grep -v '^No syntax errors')
+      - run: vendor/bin/php-cs-fixer fix --dry-run --diff
+      - run: vendor/bin/phpunit

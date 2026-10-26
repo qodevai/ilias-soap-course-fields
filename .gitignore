@@ -1,0 +1,5 @@
+.phpunit.cache/
+vendor/
+.seed.json
+.phpunit.result.cache
+__pycache__/

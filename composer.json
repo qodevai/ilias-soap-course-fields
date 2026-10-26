@@ -1,0 +1,15 @@
+{
+    "name": "qodevai/ilias-soap-course-fields",
+    "description": "ILIAS 10 SoapHook plugin: read and write course-specific user fields",
+    "type": "project",
+    "license": "GPL-3.0-only",
+    "require": { "php": ">=8.2" },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.64",
+        "phpunit/phpunit": "^11.5"
+    },
+    "config": { "sort-packages": true,
+        "platform": {
+            "php": "8.2.0"
+        } }
+}

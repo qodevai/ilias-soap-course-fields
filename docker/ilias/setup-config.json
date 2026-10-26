@@ -1,0 +1,56 @@
+{
+    "common": {
+        "client_id": "scratch",
+        "master_password": "scratch-master",
+        "server_timezone": "Europe/Berlin"
+    },
+    "database": {
+        "type": "innodb",
+        "host": "db",
+        "database": "ilias",
+        "user": "ilias",
+        "password": "ilias",
+        "create_database": false
+    },
+    "filesystem": {
+        "data_dir": "/var/iliasdata"
+    },
+    "systemfolder": {
+        "client": {
+            "name": "CourseUserFields scratch",
+            "description": "Local ILIAS instance for testing the CourseUserFields plugin",
+            "institution": "Scratch"
+        },
+        "contact": {
+            "firstname": "Scratch",
+            "lastname": "Admin",
+            "email": "scratch@example.invalid"
+        }
+    },
+    "language": {
+        "default_language": "en"
+    },
+    "http": {
+        "path": "http://localhost:8080"
+    },
+    "logging": {
+        "enable": true,
+        "path_to_logfile": "/var/www/html/logs/ilias.log",
+        "errorlog_dir": "/var/www/html/logs/"
+    },
+    "utilities": {
+        "path_to_convert": "/usr/bin/convert",
+        "path_to_zip": "/usr/bin/zip",
+        "path_to_unzip": "/usr/bin/unzip"
+    },
+    "virusscanner": {
+        "virusscanner": "none"
+    },
+    "webservices": {
+        "soap_user_administration": true,
+        "soap_wsdl_path": "http://localhost/soap/server.php?wsdl",
+        "soap_connect_timeout": 10,
+        "rpc_server_host": "127.0.0.1",
+        "rpc_server_port": "11111"
+    }
+}
